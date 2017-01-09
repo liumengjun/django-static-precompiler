@@ -3,6 +3,7 @@ dist
 *.pyc
 *.egg-info
 *.egg
+.eggs
 .idea
 .idea.mac
 .idea.win
