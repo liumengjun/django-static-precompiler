@@ -126,3 +126,4 @@ STATIC_PRECOMPILER_COMPILERS = (
         "compress_enabled": True,
     }),
 )
+STATIC_PRECOMPILER_OUTPUT_FILENAME_HASH = 'md5'

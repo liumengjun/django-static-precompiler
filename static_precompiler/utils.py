@@ -74,6 +74,19 @@ def get_hexdigest(plaintext, length=None):
     return digest
 
 
+def get_file_hexdigest(filename, length=None, alg='md5'):
+    _alg = alg.lower()
+    if _alg == 'md5':
+        digest = hashlib.md5(open(filename, 'rb').read()).hexdigest()
+    elif _alg == 'sha1':
+        digest = hashlib.sha1(open(filename, 'rb').read()).hexdigest()
+    else:
+        raise Exception("Not supported digest algorithm '{0}'".format(alg))
+    if length:
+        return digest[:length]
+    return digest
+
+
 def get_cache():
     if settings.CACHE_NAME:
         return django.core.cache.get_cache(settings.CACHE_NAME)

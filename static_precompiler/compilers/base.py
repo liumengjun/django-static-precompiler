@@ -62,7 +62,7 @@ class BaseCompiler(object):
 
         return full_path
 
-    def get_output_filename(self, source_filename):
+    def get_output_filename(self, source_filename, digest=''):
         """ Return the name of compiled file based on the name of source file.
 
         :param source_filename: name of a source file
@@ -70,7 +70,7 @@ class BaseCompiler(object):
         :returns: str
 
         """
-        return "{}.{}".format(os.path.splitext(source_filename)[0], self.output_extension)
+        return "{}{}.{}".format(os.path.splitext(source_filename)[0], digest, self.output_extension)
 
     def get_output_path(self, source_path):
         """ Get relative path to compiled file based for the given source file.
@@ -83,7 +83,12 @@ class BaseCompiler(object):
         """
         source_dir = os.path.dirname(source_path)
         source_filename = os.path.basename(source_path)
-        output_filename = self.get_output_filename(source_filename)
+        if settings.OUTPUT_FILENAME_HASH:
+            _full_path = self.get_full_source_path(source_path)
+            digest = utils.get_file_hexdigest(_full_path, 7, settings.OUTPUT_FILENAME_HASH)
+            output_filename = self.get_output_filename(source_filename, digest)
+        else:
+            output_filename = self.get_output_filename(source_filename)
         return posixpath.join(settings.OUTPUT_DIR, source_dir, output_filename)
 
     def get_full_output_path(self, source_path):
