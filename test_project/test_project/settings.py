@@ -123,7 +123,8 @@ LOGGING = {
 STATIC_PRECOMPILER_COMPILERS = (
     "static_precompiler.compilers.SCSS",
     ('static_precompiler.compilers.LESS', {
-        "compress_enabled": True,
+        # "compress_enabled": True,
     }),
 )
-STATIC_PRECOMPILER_OUTPUT_FILENAME_HASH = 'md5'
+STATIC_PRECOMPILER_OUTPUT_FILENAME_HASH = ''
+STATIC_PRECOMPILER_URL_SEARCH_HASH = 'md5'

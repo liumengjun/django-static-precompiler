@@ -35,6 +35,8 @@ if not ROOT:
 OUTPUT_DIR = getattr(settings, "STATIC_PRECOMPILER_OUTPUT_DIR", "COMPILED")
 # Append source file hash[0:7] to output filename. '', md5 or sha1
 OUTPUT_FILENAME_HASH = getattr(settings, "STATIC_PRECOMPILER_OUTPUT_FILENAME_HASH", '')
+# render url search with source file hash[0:7]. md5 or sha1
+URL_SEARCH_HASH = getattr(settings, "STATIC_PRECOMPILER_URL_SEARCH_HASH", '')
 
 # Use cache for inline compilation
 USE_CACHE = getattr(settings, "STATIC_PRECOMPILER_USE_CACHE", True)

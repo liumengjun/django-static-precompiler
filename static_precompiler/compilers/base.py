@@ -165,7 +165,7 @@ class BaseCompiler(object):
         """
         return utils.read_file(self.get_full_source_path(source_path))
 
-    def compile(self, source_path, from_management=False, verbosity=0):
+    def compile(self, source_path, from_management=False, verbosity=0, rendering=False):
         """ Compile the given source path and return relative path to the compiled file.
             Raise ValueError is the source file type is not supported.
             May raise a StaticCompilationError if something goes wrong with compilation.
@@ -197,6 +197,11 @@ class BaseCompiler(object):
                 print(message)
             else:
                 logging.info(message)
+
+        if rendering and settings.URL_SEARCH_HASH:
+            _full_path = self.get_full_source_path(source_path)
+            digest = utils.get_file_hexdigest(_full_path, 7, settings.URL_SEARCH_HASH)
+            compiled_path += '?{}'.format(digest)
 
         return compiled_path
 

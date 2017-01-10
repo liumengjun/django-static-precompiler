@@ -245,7 +245,7 @@ def get_compiler_by_path(path):
 
 def compile_static(path):
 
-    return get_compiler_by_path(path).compile(path)
+    return get_compiler_by_path(path).compile(path, rendering=True)
 
 
 def compile_static_lazy(path):

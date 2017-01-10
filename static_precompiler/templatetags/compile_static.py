@@ -27,7 +27,7 @@ def compile_tag(source_path, compiler=None):
         DeprecationWarning,
     )
     if compiler:
-        compiled = compiler.compile(source_path)
+        compiled = compiler.compile(source_path, rendering=True)
     else:
         compiled = utils.compile_static(source_path)
     if settings.PREPEND_STATIC_URL:
