@@ -21,9 +21,10 @@ class LESS(base.BaseCompiler):
     IMPORT_RE = re.compile(r"@import\s+(.+?)\s*;", re.DOTALL)
     IMPORT_ITEM_RE = re.compile(r"([\"'])(.+?)\1")
 
-    def __init__(self, executable=settings.LESS_EXECUTABLE, sourcemap_enabled=False, global_vars=None):
+    def __init__(self, executable=settings.LESS_EXECUTABLE, sourcemap_enabled=False, compress_enabled=False, global_vars=None):
         self.executable = executable
         self.is_sourcemap_enabled = sourcemap_enabled
+        self.is_compress_enabled = compress_enabled
         self.global_vars = global_vars
         super(LESS, self).__init__()
 
@@ -47,6 +48,11 @@ class LESS(base.BaseCompiler):
         if self.is_sourcemap_enabled:
             args.extend([
                 "--source-map"
+            ])
+        if self.is_compress_enabled:
+            # NOTE: lessc --compress is deprecated, recommend less-plugin-clean-css
+            args.extend([
+                "--compress"
             ])
         if self.global_vars:
             for variable_name, variable_value in self.global_vars.items():

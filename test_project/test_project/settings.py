@@ -119,3 +119,10 @@ LOGGING = {
         }
     },
 }
+
+STATIC_PRECOMPILER_COMPILERS = (
+    "static_precompiler.compilers.SCSS",
+    ('static_precompiler.compilers.LESS', {
+        "compress_enabled": True,
+    }),
+)
