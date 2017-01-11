@@ -75,16 +75,35 @@ def get_hexdigest(plaintext, length=None):
 
 
 def get_file_hexdigest(filename, length=None, alg='md5'):
+    def _read_file(path):
+        with open(path, 'rb') as fp:
+            return fp.read()
+
+    def _calc_hash(path, _alg):
+        if _alg == 'md5':
+            return hashlib.md5(_read_file(filename)).hexdigest()
+        elif _alg == 'sha1':
+            return hashlib.sha1(_read_file(filename)).hexdigest()
+        else:
+            raise Exception("Not supported digest algorithm '{0}'".format(alg))
+
     _alg = alg.lower()
-    if _alg == 'md5':
-        digest = hashlib.md5(open(filename, 'rb').read()).hexdigest()
-    elif _alg == 'sha1':
-        digest = hashlib.sha1(open(filename, 'rb').read()).hexdigest()
+    if settings.MTIME_DELAY:
+        key = get_digest_cachekey(filename, _alg)
+        cache = get_cache()
+        digest = cache.get(key)
+        if digest is None:
+            digest = _calc_hash(filename, _alg)
+            cache.set(key, digest, settings.MTIME_DELAY)
     else:
-        raise Exception("Not supported digest algorithm '{0}'".format(alg))
+        digest = _calc_hash(filename, _alg)
     if length:
         return digest[:length]
     return digest
+
+
+def get_digest_cachekey(filename, alg):
+    return get_cache_key("digest{0}.{1}".format(alg, get_hexdigest(filename)))
 
 
 def get_cache():

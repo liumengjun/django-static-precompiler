@@ -1,8 +1,8 @@
 {% load compile_static %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static "test_app/index.less"|compile %}" />
-<link rel="stylesheet" href="{% static "test_app/base.scss"|compile %}" />
+<link rel="stylesheet" href="{% static "test_app/index.less"|compile %}?{{"test_app/index.less"|file_hash}}" />
+<link rel="stylesheet" href="{% static "test_app/base.scss"|compile %}?{{"test_app/base.scss"|file_hash}}" />
 
 <span>hello i'm span standalone</span>
 

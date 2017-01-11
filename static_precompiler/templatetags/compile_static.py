@@ -2,6 +2,7 @@ import warnings
 
 import django.template
 import django.templatetags.static
+from django.contrib.staticfiles import finders
 from django.utils import six
 
 from static_precompiler import settings, utils
@@ -9,6 +10,15 @@ from static_precompiler import settings, utils
 from . import base
 
 register = django.template.Library()
+
+
+@register.filter(name="file_hash")
+def file_hash_filter(source_path):
+    try:
+        full_path = finders.find(source_path)
+        return utils.get_file_hexdigest(full_path, 7)
+    except Exception:
+        return None
 
 
 @register.filter(name="compile")
